@@ -22,14 +22,14 @@ class Client:
         cli = VerticalPrompt(
             [
                 Bullet(prompt="选择目标设备：", choices=devices),
-                YesNo(prompt="是否设置资源重写目录：", default="n"),
+                YesNo(prompt="是否设置资源重写目录", default="n"),
             ]
         )
         result = cli.launch()
         device_name = result[0][1]
         override_dir = ""
         if result[1][1]:
-            override_dir = Input("请输入资源重写目录:").launch()
+            override_dir = Input("请输入资源重写目录").launch()
         driver = DriverAdapter(ADBDriver(device_name))
         print(f"已连接设备：{device_name}, 分辨率：{driver.device_height}x{driver.device_width}")
         self._inital_tasks(driver, override_dir)

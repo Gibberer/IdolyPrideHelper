@@ -88,6 +88,19 @@ class Task(ABC):
                 self.driver.device_height,
             )
     
+    def click(self, screenshot, template_name, threshold=0.8):
+        rect = self.find_match_rect(screenshot, template_name, threshold)
+        if rect:
+            self.driver.click(rect.center_point())
+            return True
+        return False
+    
+    def match(self, screenshot, template_name,threshold=0.8):
+        rect = self.find_match_rect(screenshot, template_name, threshold)
+        if rect:
+            return True
+        return False
+    
     def retry(self, times: int = 3, interval: float = 0.5, func=None, args: tuple = None):
         if not func:
             return
@@ -115,28 +128,20 @@ class Task(ABC):
         while not self._canceled:
             yield
             screenshot = self.driver.screenshot()
-            rect = self.find_match_rect(screenshot, "close")
-            if rect:
-                self.driver.click(rect.center_point())
-            rect = self.find_match_rect(screenshot, "live_logo")
-            if rect:
+            self.click(screenshot, "close")
+            self.click(screenshot, "download")
+            if self.match(screenshot, "live_logo"):
                 self.driver.swipe(Point(500, 1500), Point(500, 1500), duration=8)
                 continue
-            rect = self.find_match_rect(screenshot, "next")
-            if rect:
-                self.driver.click(rect.center_point())
+            if self.click(screenshot, "next"):
                 continue
-            rect = self.find_match_rect(screenshot, "failed_next")
-            if rect:
+            if self.match(screenshot, "failed_next"):
                 yield Status.Finished
                 break
-            rect = self.find_match_rect(screenshot, "failed_logo")
-            if rect:
+            if self.match(screenshot, "failed_logo"):
                 yield Status.Finished
                 break
-            rect = self.find_match_rect(screenshot, "finish")
-            if rect:
-                self.driver.click(rect.center_point())
+            if self.click(screenshot, "finish"):
                 break
         yield
 
