@@ -12,9 +12,6 @@ class ServiceSettingActivity:ComponentActivity() {
     private val viewModel by viewModels<ServiceSettingViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (OpenCVLoader.initDebug()){
-            debug("opencv load debug success")
-        }
         setContent {
             MaterialTheme {
                 ServiceSettingView(viewModel)
