@@ -17,3 +17,6 @@
 使用说明：
 * 项目根目录`pipenv install`安装依赖
 * 执行程序`pipenv run python main.py`
+
+## 使用Android应用执行
+由于使用频率比较高每次连接电脑不太方便，补充了一个使用Android无障碍服务实现的版本，具体可以参考Android/目录。

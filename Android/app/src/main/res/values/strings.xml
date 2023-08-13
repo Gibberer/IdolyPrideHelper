@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Idoloy Pride Helper</string>
+    <string name="accessibility_service_label">Idoly Pride 辅助服务</string>
+    <string name="accessibility_service_description">用于执行Idoly Pride Helper功能</string>
+</resources>
